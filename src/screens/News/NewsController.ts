@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import { fetchNews } from "../../api/newsApi";
 import { getData, saveData, STORAGE_KEYS } from "../../utils/storage";
+import { useIsFocused } from "@react-navigation/native";
 export const useNews = () =>{
-    const [news, setNews] = useState<any[]>([]);
+  
+  const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    loadNews();
-  }, []);
+    if(isFocused){
+      loadNews();
+    }
+  }, [isFocused]);
 
   const loadNews = async () => {
     try {
